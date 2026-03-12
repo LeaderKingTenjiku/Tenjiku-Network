@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tenjiku Network | Official Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* CSS VARIABLES & RESET */
+        :root {
+            --bg-color: #0b0f19;
+            --surface-color: #151a28;
+            --primary-red: #e50914;
+            --text-main: #ffffff;
+            --text-muted: #a3a8b8;
+            --font-main: 'Poppins', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* NAVBAR */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(11, 15, 25, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text-main);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: var(--primary-red);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        nav ul li a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: color 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary-red);
+        }
+
+        /* HERO SLIDER */
+        .hero {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            padding: 0 10%;
+        }
+
+        .slide::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to right, rgba(11, 15, 25, 0.9) 0%, rgba(11, 15, 25, 0.2) 100%);
+            z-index: 1;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide-content {
+            position: relative;
+            z-index: 2;
+            max-width: 600px;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.8s ease 0.5s;
+        }
+
+        .slide.active .slide-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .slide-tag {
+            background: var(--primary-red);
+            color: white;
+            padding: 5px 10px;
+            font-size: 12px;
+            font-weight: 800;
+            border-radius: 3px;
+            margin-bottom: 15px;
+            display: inline-block;
+            letter-spacing: 1px;
+        }
+
+        .slide h1 {
+            font-size: 50px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .slide p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            background: var(--primary-red);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.3s, transform 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #b8070f;
+            transform: translateY(-2px);
+        }
+
+        .slider-controls {
+            position: absolute;
+            bottom: 40px;
+            left: 10%;
+            z-index: 3;
+            display: flex;
+            gap: 10px;
+        }
+
+        .dot {
+            width: 40px;
+            height: 4px;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .dot.active {
+            background: var(--primary-red);
+        }
+
+        /* SECTION STYLES */
+        section {
+            padding: 100px 10%;
+        }
+
+        .section-header {
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        .section-header h2 {
+            font-size: 36px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .section-header h2 span {
+            color: var(--primary-red);
+        }
+
+        /* DIVISIONS GRID */
+        .divisions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .division-card {
+            background: var(--surface-color);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .division-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 3px solid var(--primary-red);
+        }
+
+        .card-content {
+            padding: 30px;
+        }
+
+        .card-content h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .card-content p {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* COMPLAINTS / CONTACT SECTION */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            background: var(--surface-color);
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .contact-info p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            background: var(--bg-color);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 5px;
+            font-family: var(--font-main);
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, 
+        .form-group select:focus, 
+        .form-group textarea:focus {
+            border-color: var(--primary-red);
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: none;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #05070c;
+            padding: 40px 10%;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-links {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-links a {
+            color: var(--text-muted);
+            font-size: 24px;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-red);
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            nav ul { display: none; } /* Add a hamburger menu later for mobile */
+            .slide h1 { font-size: 36px; }
+            .contact-container { grid-template-columns: 1fr; padding: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">Tenjiku <span>Network</span></a>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#divisions">Divisions</a></li>
+                <li><a href="#complaints">Support/Complaints</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1578632767115-351597cf2477?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
+            <div class="slide-content">
+                <span class="slide-tag">ANIMATION STUDIO</span>
+                <h1>Breathing Life Into Imagination</h1>
+                <p>Tenjiku Animation Studio creates world-class, fluid, and breathtaking visual experiences. From concept art to final composite, we bring stories to life.</p>
+                <a href="#divisions" class="btn"><i class="fas fa-play"></i> Explore Our Work</a>
+            </div>
+        </div>
+        
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
+            <div class="slide-content">
+                <span class="slide-tag">DUBBING STUDIO</span>
+                <h1>Voices That Resonate Worldwide</h1>
+                <p>Equipped with state-of-the-art acoustic technology, our dubbing division provides premium voice-over, localization, and ADR services for global audiences.</p>
+                <a href="#divisions" class="btn"><i class="fas fa-microphone"></i> Learn More</a>
+            </div>
+        </div>
+
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1518131672697-613becd40074?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
+            <div class="slide-content">
+                <span class="slide-tag">TENJIKU PRODUCTIONS</span>
+                <h1>Producing The Next Masterpiece</h1>
+                <p>Overseeing project management, funding, and global distribution. Tenjiku Productions is the backbone of the entertainment revolution.</p>
+                <a href="#overview" class="btn"><i class="fas fa-film"></i> Our Vision</a>
+            </div>
+        </div>
+
+        <div class="slider-controls">
+            <div class="dot active" onclick="currentSlide(0)"></div>
+            <div class="dot" onclick="currentSlide(1)"></div>
+            <div class="dot" onclick="currentSlide(2)"></div>
+        </div>
+    </section>
+
+    <section id="divisions">
+        <div class="section-header">
+            <h2>Our <span>Divisions</span></h2>
+        </div>
+        <div class="divisions-grid">
+            <div class="division-card">
+                <img src="https://images.unsplash.com/photo-1561089489-026859730048?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Animation" class="card-img">
+                <div class="card-content">
+                    <h3>Animation Studio</h3>
+                    <p>High-tier 2D and 3D animation services. Our artists specialize in dynamic action sequences, emotive character acting, and stunning background art.</p>
+                </div>
+            </div>
+            <div class="division-card">
+                <img src="https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Dubbing" class="card-img">
+                <div class="card-content">
+                    <h3>Dubbing & Audio</h3>
+                    <p>Professional sound design, foley, and voice acting. We provide seamless localization to ensure your story hits the right emotional notes in any language.</p>
+                </div>
+            </div>
+            <div class="division-card">
+                <img src="https://images.unsplash.com/photo-1616469829581-73993eb86b02?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Licensing" class="card-img">
+                <div class="card-content">
+                    <h3>Global Licensing</h3>
+                    <p>Managing intellectual property, merchandise rights, and international broadcasting deals to ensure maximum global reach for our creations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="complaints">
+        <div class="section-header">
+            <h2>Support & <span>Complaints</span></h2>
+        </div>
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3 style="font-size: 28px; margin-bottom: 20px;">We Value Your Feedback</h3>
+                <p>At Tenjiku Network, we strive for perfection. If you have experienced an issue with our content, services, licensing, or personnel, please file a complaint below. Our dedicated support team reviews all submissions within 48 hours.</p>
+                
+                <div style="margin-top: 40px;">
+                    <h4 style="margin-bottom: 10px; color: white;">Direct Contact</h4>
+                    <p><i class="fas fa-envelope" style="color: var(--primary-red); margin-right: 10px;"></i> support@tenjikunetwork.com</p>
+                    <p><i class="fas fa-phone" style="color: var(--primary-red); margin-right: 10px;"></i> +1 (800) 123-4567</p>
+                </div>
+            </div>
+            
+            <form id="complaintForm">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" placeholder="John Doe" required>
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" placeholder="john@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Department / Category</label>
+                    <select required>
+                        <option value="" disabled selected>Select an issue...</option>
+                        <option value="animation">Animation Quality / Content</option>
+                        <option value="dubbing">Dubbing / Translation Error</option>
+                        <option value="business">Business / Licensing Inquiry</option>
+                        <option value="other">Other Complaint</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Message / Details</label>
+                    <textarea placeholder="Please describe the issue in detail..." required></textarea>
+                </div>
+                <button type="submit" class="btn" style="width: 100%; justify-content: center;">Submit Report</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <a href="#" class="logo">Tenjiku <span>Network</span></a>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+        </div>
+        <p>&copy; 2026 Tenjiku Network Holdings. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Hero Slider Logic
+        let slideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        let slideInterval;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+        }
+
+        function nextSlide() {
+            slideIndex = (slideIndex + 1) % slides.length;
+            showSlide(slideIndex);
+        }
+
+        function currentSlide(index) {
+            slideIndex = index;
+            showSlide(slideIndex);
+            resetInterval();
+        }
+
+        function resetInterval() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 5000);
+        }
+
+        // Start auto-slider (changes every 5 seconds)
+        slideInterval = setInterval(nextSlide, 5000);
+
+        // Form submission handler
+        document.getElementById('complaintForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your report. The Tenjiku Support team will review this shortly.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
